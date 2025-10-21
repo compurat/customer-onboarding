@@ -1,9 +1,9 @@
 package com.abc.customer.onboarding;
 
-import com.abc.customer.onboarding.database.CopyOfId;
+import com.abc.customer.onboarding.database.CopyOfIdEntity;
 import com.abc.customer.onboarding.database.CopyOfIdRepository;
 import com.abc.customer.onboarding.database.Gender;
-import com.abc.customer.onboarding.database.Onboarding;
+import com.abc.customer.onboarding.database.OnboardingEntity;
 import com.abc.customer.onboarding.database.OnboardingRepository;
 import com.abc.customer.onboarding.email.EmailSenderSevice;
 import org.junit.jupiter.api.Test;
@@ -17,15 +17,15 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Optional;
 
-import static com.abc.customer.onboarding.OnboardingMapperTest.createDummyImageFile;
-import static com.abc.customer.onboarding.OnboardingMapperTest.createOnboardingStub;
+import static com.abc.customer.onboarding.OnboardingEntityMapperTest.createDummyImageFile;
+import static com.abc.customer.onboarding.OnboardingEntityMapperTest.createOnboardingStub;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class OnboardingServiceTest {
+class OnboardingEntityServiceTest {
     @Mock
     private OnboardingRepository onboardingRepository;
     @Mock
@@ -42,11 +42,11 @@ class OnboardingServiceTest {
     void testSaveOnboardingHappyFlow() {
         com.abc.customer.onboarding.web.Onboarding onboarding = createOnboardingStub();
 
-        Onboarding onboardingDaoStub = createOnboardingDaoStub();
+        OnboardingEntity onboardingEntityDaoStub = createOnboardingDaoStub();
         when(onboardingRepository.findByMailAddress(anyString()))
                 .thenReturn(Optional.empty());
         when(onboardingMapper.mapOnboardingtoOnboardingDao(onboarding))
-                .thenReturn(onboardingDaoStub);
+                .thenReturn(onboardingEntityDaoStub);
         assertEquals(HttpStatus.CREATED, onboardingService.createOnboarding(onboarding).getStatus());
 
     }
@@ -54,39 +54,39 @@ class OnboardingServiceTest {
     @Test
     void testSaveOnboardingAllreadyExistst() {
         com.abc.customer.onboarding.web.Onboarding onboarding = createOnboardingStub();
-        Onboarding onboardingDaoStub = createOnboardingDaoStub();
+        OnboardingEntity onboardingEntityDaoStub = createOnboardingDaoStub();
 
         when(onboardingRepository.findByMailAddress(anyString()))
-                .thenReturn(Optional.of(onboardingDaoStub));
+                .thenReturn(Optional.of(onboardingEntityDaoStub));
         assertThrows(IllegalArgumentException.class, () -> onboardingService.createOnboarding(onboarding));
     }
 
-    public static Onboarding createOnboardingDaoStub() {
-        Onboarding onboardingDao = new Onboarding();
+    public static OnboardingEntity createOnboardingDaoStub() {
+        OnboardingEntity onboardingEntityDao = new OnboardingEntity();
         LocalDate localDate = LocalDate.of(1990, 1, 1);
-        onboardingDao.setBirth(localDate);
-        onboardingDao.setGender(Gender.MALE.toString());
-        onboardingDao.setPhone("1234567890");
-        onboardingDao.setCopyOfId(createCopyOfidDaoStub());
-        onboardingDao.setFirstName("testFirstName");
-        onboardingDao.setLastName("TestLastname");
-        onboardingDao.setMobileNumber("06123456789");
-        onboardingDao.setNationality("Netherlands");
-        onboardingDao.setMailAddress("test@test.com");
-        onboardingDao.setResidentialAddress("testStreet 12");
-        onboardingDao.setSocialSecurityNumber("123456789");
-        return onboardingDao;
+        onboardingEntityDao.setBirth(localDate);
+        onboardingEntityDao.setGender(Gender.MALE.toString());
+        onboardingEntityDao.setPhone("1234567890");
+        onboardingEntityDao.setCopyOfId(createCopyOfidDaoStub());
+        onboardingEntityDao.setFirstName("testFirstName");
+        onboardingEntityDao.setLastName("TestLastname");
+        onboardingEntityDao.setMobileNumber("06123456789");
+        onboardingEntityDao.setNationality("Netherlands");
+        onboardingEntityDao.setMailAddress("test@test.com");
+        onboardingEntityDao.setResidentialAddress("testStreet 12");
+        onboardingEntityDao.setSocialSecurityNumber("123456789");
+        return onboardingEntityDao;
     }
 
-    private static CopyOfId createCopyOfidDaoStub() {
-        CopyOfId copyOfIdDao = new CopyOfId();
-        copyOfIdDao.setIdNumber("12345676");
+    private static CopyOfIdEntity createCopyOfidDaoStub() {
+        CopyOfIdEntity copyOfIdEntityDao = new CopyOfIdEntity();
+        copyOfIdEntityDao.setIdNumber("12345676");
         try {
-            copyOfIdDao.setPhoto(createDummyImageFile().getInputStream().readAllBytes());
+            copyOfIdEntityDao.setPhoto(createDummyImageFile().getInputStream().readAllBytes());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return copyOfIdDao;
+        return copyOfIdEntityDao;
     }
 
 }

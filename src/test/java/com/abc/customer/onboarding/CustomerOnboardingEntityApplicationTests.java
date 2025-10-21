@@ -23,7 +23,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.nio.charset.StandardCharsets;
 
-import static com.abc.customer.onboarding.OnboardingMapperTest.createOnboardingStub;
+import static com.abc.customer.onboarding.OnboardingEntityMapperTest.createOnboardingStub;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
@@ -34,7 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("test")
 @Testcontainers
 @SpringBootTest
-class CustomerOnboardingApplicationTests {
+class CustomerOnboardingEntityApplicationTests {
 
     private MockMvc mockMvc;
     @Autowired

@@ -1,11 +1,12 @@
 package com.abc.customer.onboarding;
 
-import com.abc.customer.onboarding.database.CopyOfId;
+import com.abc.customer.onboarding.database.CopyOfIdEntity;
 import com.abc.customer.onboarding.database.CopyOfIdRepository;
-import com.abc.customer.onboarding.database.Onboarding;
+import com.abc.customer.onboarding.database.OnboardingEntity;
 import com.abc.customer.onboarding.database.OnboardingRepository;
 import com.abc.customer.onboarding.email.EmailSenderSevice;
 import com.abc.customer.onboarding.web.OnBoardingResult;
+import com.abc.customer.onboarding.web.Onboarding;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -39,24 +40,24 @@ public class OnboardingService {
      * @param onboarding contains all the information that is needed for the onboarding.
      * @return
      */
-    OnBoardingResult createOnboarding(com.abc.customer.onboarding.web.Onboarding onboarding) {
-        Optional<Onboarding> existing = onboardingRepository.findByMailAddress(
+    OnBoardingResult createOnboarding(Onboarding onboarding) {
+        Optional<OnboardingEntity> existing = onboardingRepository.findByMailAddress(
                 onboarding.getMailAddress()
         );
         if (existing.isPresent()) {
             throw new InvalidParameterException("Mail address already exists");
         }
 
-        Onboarding onboardingDao = onboardingMapper.mapOnboardingtoOnboardingDao(onboarding);
-        CopyOfId copyOfId = onboardingDao.getCopyOfId();
-        copyOfIdRepository.save(copyOfId);
-        onboardingDao.setCustomerId(UUID.randomUUID().toString());
-        onboardingRepository.save(onboardingDao);
+        OnboardingEntity onboardingEntityDao = onboardingMapper.mapOnboardingtoOnboardingDao(onboarding);
+        CopyOfIdEntity copyOfIdEntity = onboardingEntityDao.getCopyOfId();
+        copyOfIdRepository.save(copyOfIdEntity);
+        onboardingEntityDao.setCustomerId(UUID.randomUUID().toString());
+        onboardingRepository.save(onboardingEntityDao);
         emailSenderSevice.sendSimpleEmail(onboarding.getMailAddress(), onboarding.getLastName());
         var onboardingResult = new OnBoardingResult();
 
         onboardingResult.setStatus(HttpStatus.CREATED);
-        onboardingResult.setMessage("Onboarding was successful, you will receive an email with instructions howto access our customer portal");
+        onboardingResult.setMessage("OnboardingEntity was successful, you will receive an email with instructions howto access our customer portal");
         return onboardingResult;
     }
 

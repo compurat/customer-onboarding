@@ -13,7 +13,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "ONBOARDING")
-public class Onboarding {
+public class OnboardingEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true)
@@ -21,7 +21,7 @@ public class Onboarding {
 
     @ManyToOne
     @JoinColumn(name = "copy_of_id_id")
-    private CopyOfId copyOfId;
+    private CopyOfIdEntity copyOfIdEntity;
     @Column(name = "first_name")
     private String firstName;
     @Column(name = "last_name")
@@ -41,12 +41,12 @@ public class Onboarding {
     @Column(name = "customer_id")
     private String customerId;
 
-    public CopyOfId getCopyOfId() {
-        return copyOfId;
+    public CopyOfIdEntity getCopyOfId() {
+        return copyOfIdEntity;
     }
 
-    public void setCopyOfId(CopyOfId copyOfId) {
-        this.copyOfId = copyOfId;
+    public void setCopyOfId(CopyOfIdEntity copyOfIdEntity) {
+        this.copyOfIdEntity = copyOfIdEntity;
     }
 
     public String getFirstName() {

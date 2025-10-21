@@ -1,7 +1,7 @@
 package com.abc.customer.onboarding;
 
 import com.abc.customer.onboarding.database.Gender;
-import com.abc.customer.onboarding.database.Onboarding;
+import com.abc.customer.onboarding.database.OnboardingEntity;
 import com.abc.customer.onboarding.stubs.MultiPartFileStub;
 import com.abc.customer.onboarding.web.CopyOfId;
 import org.junit.jupiter.api.Test;
@@ -13,14 +13,14 @@ import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class OnboardingMapperTest {
+class OnboardingEntityMapperTest {
 
     @Test
     void testMapOnboardingtoOnboardingDao() {
         OnboardingMapper onboardingMapper = new OnboardingMapper();
         com.abc.customer.onboarding.web.Onboarding onboarding = createOnboardingStub();
-        Onboarding onboardingDao = onboardingMapper.mapOnboardingtoOnboardingDao(onboarding);
-        assertTrue(equals(onboardingDao, onboarding));
+        OnboardingEntity onboardingEntityDao = onboardingMapper.mapOnboardingtoOnboardingDao(onboarding);
+        assertTrue(equals(onboardingEntityDao, onboarding));
     }
 
     public static com.abc.customer.onboarding.web.Onboarding createOnboardingStub() {
@@ -69,7 +69,7 @@ class OnboardingMapperTest {
         );
     }
 
-    private boolean equals(Onboarding onboardingDao, com.abc.customer.onboarding.web.Onboarding onboarding) {
+    private boolean equals(OnboardingEntity onboardingEntityDao, com.abc.customer.onboarding.web.Onboarding onboarding) {
         byte[] photo = null;
         try {
 
@@ -79,16 +79,16 @@ class OnboardingMapperTest {
             throw new RuntimeException(e);
         }
 
-        return onboardingDao.getBirth().equals(onboarding.getBirth()) &&
-                onboardingDao.getFirstName().equals(onboarding.getFirstName()) &&
-                onboardingDao.getGender() == onboarding.getGender().toString() &&
-                onboardingDao.getLastName().equals(onboarding.getLastName()) &&
-                onboardingDao.getCopyOfId().getIdNumber().equals(onboarding.getCopyOfId().getIdNumber()) &&
-                Arrays.equals(onboardingDao.getCopyOfId().getPhoto(), photo) &&
-                onboardingDao.getResidentialAddress().equals(onboarding.getResidentialAddress()) &&
-                onboardingDao.getSocialSecurityNumber().equals(onboarding.getSocialSecurityNumber()) &&
-                onboardingDao.getMobileNumber().equals(onboarding.getMobileNumber()) &&
-                onboardingDao.getNationality().equals(onboarding.getNationality()) &&
-                onboardingDao.getMailAddress().equals(onboarding.getMailAddress());
+        return onboardingEntityDao.getBirth().equals(onboarding.getBirth()) &&
+                onboardingEntityDao.getFirstName().equals(onboarding.getFirstName()) &&
+                onboardingEntityDao.getGender() == onboarding.getGender().toString() &&
+                onboardingEntityDao.getLastName().equals(onboarding.getLastName()) &&
+                onboardingEntityDao.getCopyOfId().getIdNumber().equals(onboarding.getCopyOfId().getIdNumber()) &&
+                Arrays.equals(onboardingEntityDao.getCopyOfId().getPhoto(), photo) &&
+                onboardingEntityDao.getResidentialAddress().equals(onboarding.getResidentialAddress()) &&
+                onboardingEntityDao.getSocialSecurityNumber().equals(onboarding.getSocialSecurityNumber()) &&
+                onboardingEntityDao.getMobileNumber().equals(onboarding.getMobileNumber()) &&
+                onboardingEntityDao.getNationality().equals(onboarding.getNationality()) &&
+                onboardingEntityDao.getMailAddress().equals(onboarding.getMailAddress());
     }
 }

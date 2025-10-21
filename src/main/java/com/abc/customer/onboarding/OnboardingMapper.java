@@ -1,7 +1,9 @@
 package com.abc.customer.onboarding;
 
-import com.abc.customer.onboarding.database.CopyOfId;
-import com.abc.customer.onboarding.database.Onboarding;
+import com.abc.customer.onboarding.database.CopyOfIdEntity;
+import com.abc.customer.onboarding.database.OnboardingEntity;
+import com.abc.customer.onboarding.web.CopyOfId;
+import com.abc.customer.onboarding.web.Onboarding;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -12,33 +14,33 @@ import java.io.IOException;
 public class OnboardingMapper {
     private static final Logger LOGGER = LoggerFactory.getLogger(OnboardingMapper.class);
 
-    Onboarding mapOnboardingtoOnboardingDao(com.abc.customer.onboarding.web.Onboarding onboarding) {
-        Onboarding onboardingDao = new Onboarding();
-        onboardingDao.setBirth(onboarding.getBirth());
-        onboardingDao.setMailAddress(onboarding.getMailAddress());
-        onboardingDao.setFirstName(onboarding.getFirstName());
-        onboardingDao.setGender(onboarding.getGender().toString());
-        onboardingDao.setLastName(onboarding.getLastName());
-        onboardingDao.setCopyOfId(mapCopyOfIdToCopyOfIdDao(onboarding.getCopyOfId()));
-        onboardingDao.setMobileNumber(onboarding.getMobileNumber());
-        onboardingDao.setNationality(onboarding.getNationality());
-        onboardingDao.setResidentialAddress(onboarding.getResidentialAddress());
-        onboardingDao.setSocialSecurityNumber(onboarding.getSocialSecurityNumber());
+    OnboardingEntity mapOnboardingtoOnboardingDao(Onboarding onboarding) {
+        OnboardingEntity onboardingEntityDao = new OnboardingEntity();
+        onboardingEntityDao.setBirth(onboarding.getBirth());
+        onboardingEntityDao.setMailAddress(onboarding.getMailAddress());
+        onboardingEntityDao.setFirstName(onboarding.getFirstName());
+        onboardingEntityDao.setGender(onboarding.getGender().toString());
+        onboardingEntityDao.setLastName(onboarding.getLastName());
+        onboardingEntityDao.setCopyOfId(mapCopyOfIdToCopyOfIdDao(onboarding.getCopyOfId()));
+        onboardingEntityDao.setMobileNumber(onboarding.getMobileNumber());
+        onboardingEntityDao.setNationality(onboarding.getNationality());
+        onboardingEntityDao.setResidentialAddress(onboarding.getResidentialAddress());
+        onboardingEntityDao.setSocialSecurityNumber(onboarding.getSocialSecurityNumber());
 
-        return onboardingDao;
+        return onboardingEntityDao;
     }
 
-    CopyOfId mapCopyOfIdToCopyOfIdDao(com.abc.customer.onboarding.web.CopyOfId copyOfId) {
-        CopyOfId copyOfIdDao = new CopyOfId();
-        copyOfIdDao.setIdNumber(copyOfId.getIdNumber());
+    CopyOfIdEntity mapCopyOfIdToCopyOfIdDao(CopyOfId copyOfId) {
+        CopyOfIdEntity copyOfIdEntityDao = new CopyOfIdEntity();
+        copyOfIdEntityDao.setIdNumber(copyOfId.getIdNumber());
         try {
             // Direct byte[] gebruiken - geen conversie naar BigInteger!
             byte[] photoBytes = copyOfId.getPhoto().getInputStream().readAllBytes();
-            copyOfIdDao.setPhoto(photoBytes);  // Dit is byte[], niet BigInteger
+            copyOfIdEntityDao.setPhoto(photoBytes);  // Dit is byte[], niet BigInteger
         } catch (IOException e) {
-            LOGGER.error("Failed to read photo bytes for CopyOfId: {}", copyOfId.getIdNumber(), e);
+            LOGGER.error("Failed to read photo bytes for CopyOfIdEntity: {}", copyOfId.getIdNumber(), e);
             throw new IllegalArgumentException("Failed to process photo", e);
         }
-        return copyOfIdDao;
+        return copyOfIdEntityDao;
     }
 }
