@@ -1,12 +1,11 @@
 package com.abc.customer.onboarding;
 
-import com.abc.customer.onboarding.database.CopyOfIdDao;
+import com.abc.customer.onboarding.database.CopyOfId;
 import com.abc.customer.onboarding.database.CopyOfIdRepository;
 import com.abc.customer.onboarding.database.Gender;
-import com.abc.customer.onboarding.database.OnboardingDao;
+import com.abc.customer.onboarding.database.Onboarding;
 import com.abc.customer.onboarding.database.OnboardingRepository;
 import com.abc.customer.onboarding.email.EmailSenderSevice;
-import com.abc.customer.onboarding.web.Onboarding;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -41,9 +40,9 @@ class OnboardingServiceTest {
 
     @Test
     void testSaveOnboardingHappyFlow() {
-        Onboarding onboarding = createOnboardingStub();
+        com.abc.customer.onboarding.web.Onboarding onboarding = createOnboardingStub();
 
-        OnboardingDao onboardingDaoStub = createOnboardingDaoStub();
+        Onboarding onboardingDaoStub = createOnboardingDaoStub();
         when(onboardingRepository.findByMailAddress(anyString()))
                 .thenReturn(Optional.empty());
         when(onboardingMapper.mapOnboardingtoOnboardingDao(onboarding))
@@ -54,16 +53,16 @@ class OnboardingServiceTest {
 
     @Test
     void testSaveOnboardingAllreadyExistst() {
-        Onboarding onboarding = createOnboardingStub();
-        OnboardingDao onboardingDaoStub = createOnboardingDaoStub();
+        com.abc.customer.onboarding.web.Onboarding onboarding = createOnboardingStub();
+        Onboarding onboardingDaoStub = createOnboardingDaoStub();
 
         when(onboardingRepository.findByMailAddress(anyString()))
                 .thenReturn(Optional.of(onboardingDaoStub));
         assertThrows(IllegalArgumentException.class, () -> onboardingService.createOnboarding(onboarding));
     }
 
-    public static OnboardingDao createOnboardingDaoStub() {
-        OnboardingDao onboardingDao = new OnboardingDao();
+    public static Onboarding createOnboardingDaoStub() {
+        Onboarding onboardingDao = new Onboarding();
         LocalDate localDate = LocalDate.of(1990, 1, 1);
         onboardingDao.setBirth(localDate);
         onboardingDao.setGender(Gender.MALE.toString());
@@ -79,8 +78,8 @@ class OnboardingServiceTest {
         return onboardingDao;
     }
 
-    private static CopyOfIdDao createCopyOfidDaoStub() {
-        CopyOfIdDao copyOfIdDao = new CopyOfIdDao();
+    private static CopyOfId createCopyOfidDaoStub() {
+        CopyOfId copyOfIdDao = new CopyOfId();
         copyOfIdDao.setIdNumber("12345676");
         try {
             copyOfIdDao.setPhoto(createDummyImageFile().getInputStream().readAllBytes());

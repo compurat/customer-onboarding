@@ -16,7 +16,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "ID_PROOF")
-public class CopyOfIdDao {
+public class CopyOfId {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true)
@@ -28,7 +28,7 @@ public class CopyOfIdDao {
     @Column(name = "photo", columnDefinition = "BYTEA")
     private byte[] photo;
     @OneToMany(mappedBy = "copyOfId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<OnboardingDao> onboardingDaos;
+    private List<Onboarding> onboardingDaos;
 
     public Long getId() {
         return Id;
@@ -54,11 +54,11 @@ public class CopyOfIdDao {
         this.photo = photo;
     }
 
-    public List<OnboardingDao> getOnboardingDaos() {
+    public List<Onboarding> getOnboardingDaos() {
         return onboardingDaos;
     }
 
-    public void setOnboardingDaos(List<OnboardingDao> onboardingDaos) {
+    public void setOnboardingDaos(List<Onboarding> onboardingDaos) {
         this.onboardingDaos = onboardingDaos;
     }
 }

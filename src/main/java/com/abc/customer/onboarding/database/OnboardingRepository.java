@@ -6,8 +6,8 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface OnboardingRepository extends CrudRepository<OnboardingDao, Long> {
+public interface OnboardingRepository extends CrudRepository<Onboarding, Long> {
 
     // ✅ VERANDER: findbyMailAddress → findByMailAddress
-    Optional<OnboardingDao> findByMailAddress(String email);
+    Optional<Onboarding> findByMailAddress(String email);
 }

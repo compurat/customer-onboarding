@@ -1,10 +1,9 @@
 package com.abc.customer.onboarding;
 
 import com.abc.customer.onboarding.database.Gender;
-import com.abc.customer.onboarding.database.OnboardingDao;
+import com.abc.customer.onboarding.database.Onboarding;
 import com.abc.customer.onboarding.stubs.MultiPartFileStub;
 import com.abc.customer.onboarding.web.CopyOfId;
-import com.abc.customer.onboarding.web.Onboarding;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,13 +18,13 @@ class OnboardingMapperTest {
     @Test
     void testMapOnboardingtoOnboardingDao() {
         OnboardingMapper onboardingMapper = new OnboardingMapper();
-        Onboarding onboarding = createOnboardingStub();
-        OnboardingDao onboardingDao = onboardingMapper.mapOnboardingtoOnboardingDao(onboarding);
+        com.abc.customer.onboarding.web.Onboarding onboarding = createOnboardingStub();
+        Onboarding onboardingDao = onboardingMapper.mapOnboardingtoOnboardingDao(onboarding);
         assertTrue(equals(onboardingDao, onboarding));
     }
 
-    public static Onboarding createOnboardingStub() {
-        Onboarding onboarding = new Onboarding();
+    public static com.abc.customer.onboarding.web.Onboarding createOnboardingStub() {
+        com.abc.customer.onboarding.web.Onboarding onboarding = new com.abc.customer.onboarding.web.Onboarding();
         LocalDate localDate = LocalDate.of(1990, 1, 1);
         onboarding.setBirth(localDate);
         onboarding.setGender(Gender.MALE);
@@ -70,7 +69,7 @@ class OnboardingMapperTest {
         );
     }
 
-    private boolean equals(OnboardingDao onboardingDao, Onboarding onboarding) {
+    private boolean equals(Onboarding onboardingDao, com.abc.customer.onboarding.web.Onboarding onboarding) {
         byte[] photo = null;
         try {
 

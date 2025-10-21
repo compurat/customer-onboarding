@@ -1,9 +1,7 @@
 package com.abc.customer.onboarding;
 
-import com.abc.customer.onboarding.database.CopyOfIdDao;
-import com.abc.customer.onboarding.database.OnboardingDao;
-import com.abc.customer.onboarding.web.CopyOfId;
-import com.abc.customer.onboarding.web.Onboarding;
+import com.abc.customer.onboarding.database.CopyOfId;
+import com.abc.customer.onboarding.database.Onboarding;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -14,8 +12,8 @@ import java.io.IOException;
 public class OnboardingMapper {
     private static final Logger LOGGER = LoggerFactory.getLogger(OnboardingMapper.class);
 
-    OnboardingDao mapOnboardingtoOnboardingDao(Onboarding onboarding) {
-        OnboardingDao onboardingDao = new OnboardingDao();
+    Onboarding mapOnboardingtoOnboardingDao(com.abc.customer.onboarding.web.Onboarding onboarding) {
+        Onboarding onboardingDao = new Onboarding();
         onboardingDao.setBirth(onboarding.getBirth());
         onboardingDao.setMailAddress(onboarding.getMailAddress());
         onboardingDao.setFirstName(onboarding.getFirstName());
@@ -30,8 +28,8 @@ public class OnboardingMapper {
         return onboardingDao;
     }
 
-    CopyOfIdDao mapCopyOfIdToCopyOfIdDao(CopyOfId copyOfId) {
-        CopyOfIdDao copyOfIdDao = new CopyOfIdDao();
+    CopyOfId mapCopyOfIdToCopyOfIdDao(com.abc.customer.onboarding.web.CopyOfId copyOfId) {
+        CopyOfId copyOfIdDao = new CopyOfId();
         copyOfIdDao.setIdNumber(copyOfId.getIdNumber());
         try {
             // Direct byte[] gebruiken - geen conversie naar BigInteger!

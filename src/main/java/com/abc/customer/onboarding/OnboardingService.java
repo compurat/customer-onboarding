@@ -1,12 +1,11 @@
 package com.abc.customer.onboarding;
 
-import com.abc.customer.onboarding.database.CopyOfIdDao;
+import com.abc.customer.onboarding.database.CopyOfId;
 import com.abc.customer.onboarding.database.CopyOfIdRepository;
-import com.abc.customer.onboarding.database.OnboardingDao;
+import com.abc.customer.onboarding.database.Onboarding;
 import com.abc.customer.onboarding.database.OnboardingRepository;
 import com.abc.customer.onboarding.email.EmailSenderSevice;
 import com.abc.customer.onboarding.web.OnBoardingResult;
-import com.abc.customer.onboarding.web.Onboarding;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -40,16 +39,16 @@ public class OnboardingService {
      * @param onboarding contains all the information that is needed for the onboarding.
      * @return
      */
-    OnBoardingResult createOnboarding(Onboarding onboarding) {
-        Optional<OnboardingDao> existing = onboardingRepository.findByMailAddress(
+    OnBoardingResult createOnboarding(com.abc.customer.onboarding.web.Onboarding onboarding) {
+        Optional<Onboarding> existing = onboardingRepository.findByMailAddress(
                 onboarding.getMailAddress()
         );
         if (existing.isPresent()) {
             throw new InvalidParameterException("Mail address already exists");
         }
 
-        OnboardingDao onboardingDao = onboardingMapper.mapOnboardingtoOnboardingDao(onboarding);
-        CopyOfIdDao copyOfId = onboardingDao.getCopyOfId();
+        Onboarding onboardingDao = onboardingMapper.mapOnboardingtoOnboardingDao(onboarding);
+        CopyOfId copyOfId = onboardingDao.getCopyOfId();
         copyOfIdRepository.save(copyOfId);
         onboardingDao.setCustomerId(UUID.randomUUID().toString());
         onboardingRepository.save(onboardingDao);
