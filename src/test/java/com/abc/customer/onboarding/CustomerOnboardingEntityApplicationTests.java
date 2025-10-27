@@ -60,7 +60,7 @@ class CustomerOnboardingEntityApplicationTests {
     public void init() {
         MockMvcBuilder mockMvcBuilder = MockMvcBuilders.standaloneSetup(onboardingController);
         this.mockMvc = mockMvcBuilder.build();
-        doNothing().when(emailSenderSevice).sendSimpleEmail(anyString(), anyString());
+        doNothing().when(emailSenderSevice).sendSimpleEmail(anyString(), anyString(), anyString());
     }
 
     @Test

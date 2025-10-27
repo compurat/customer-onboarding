@@ -27,7 +27,7 @@ public class CopyOfIdEntity {
     @Basic
     @Column(name = "photo", columnDefinition = "BYTEA")
     private byte[] photo;
-    @OneToMany(mappedBy = "copyOfId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "copyOfIdEntity", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<OnboardingEntity> onboardingEntityDaos;
 
     public Long getId() {

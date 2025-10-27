@@ -19,6 +19,7 @@ CREATE TABLE onboarding
     residential_address    VARCHAR(500),
     social_security_number VARCHAR(20),
     customer_id            VARCHAR(255) UNIQUE,
+    password                varchar(10),
 
 
     CONSTRAINT fk_copy_of_id

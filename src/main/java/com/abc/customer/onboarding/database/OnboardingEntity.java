@@ -40,6 +40,7 @@ public class OnboardingEntity {
     private String socialSecurityNumber;
     @Column(name = "customer_id")
     private String customerId;
+    private String password;
 
     public CopyOfIdEntity getCopyOfId() {
         return copyOfIdEntity;
@@ -135,5 +136,13 @@ public class OnboardingEntity {
 
     public void setCustomerId(String customerId) {
         this.customerId = customerId;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

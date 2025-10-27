@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.security.InvalidParameterException;
 import java.util.Optional;
+import java.util.Random;
 import java.util.UUID;
 
 /**
@@ -49,11 +50,13 @@ public class OnboardingService {
         }
 
         OnboardingEntity onboardingEntityDao = onboardingMapper.mapOnboardingtoOnboardingDao(onboarding);
+        String password = createPassword();
         CopyOfIdEntity copyOfIdEntity = onboardingEntityDao.getCopyOfId();
         copyOfIdRepository.save(copyOfIdEntity);
         onboardingEntityDao.setCustomerId(UUID.randomUUID().toString());
+        onboardingEntityDao.setPassword(password);
         onboardingRepository.save(onboardingEntityDao);
-        emailSenderSevice.sendSimpleEmail(onboarding.getMailAddress(), onboarding.getLastName());
+        emailSenderSevice.sendSimpleEmail(onboarding.getMailAddress(), onboarding.getLastName(), password);
         var onboardingResult = new OnBoardingResult();
 
         onboardingResult.setStatus(HttpStatus.CREATED);
@@ -61,5 +64,17 @@ public class OnboardingService {
         return onboardingResult;
     }
 
+    private String createPassword() {
+        String allChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_=+[]{}\\|;:'\",.<>/?`~ ";
+        Random random = new Random();
+        StringBuilder password = new StringBuilder(10);
+
+        for (int i = 0; i < 10; i++) {
+            int randomIndex = random.nextInt(allChars.length());
+            password.append(allChars.charAt(randomIndex));
+        }
+
+        return password.toString();
+    }
 
 }
